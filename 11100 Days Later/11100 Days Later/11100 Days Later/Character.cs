@@ -15,7 +15,6 @@ namespace _11100_Days_Later
 
         InputHandler input = new InputHandler();
 
-
         public Character(Vector2 startPosition, int startHealth)
         {
             position = startPosition;
@@ -32,12 +31,11 @@ namespace _11100_Days_Later
         {
             base.Update();
 
-            MouseState mouseState = Mouse.GetState();
-            double yDiff = position.Y - mouseState.Y;
-            double xDiff = -(position.X - mouseState.X);
+            mouseState = Mouse.GetState();
 
-            facing = (float)(90 - Math.Atan(yDiff / xDiff));
-
+            var mouseloc = new Vector2(mouseState.X, mouseState.Y);
+            Vector2 direction = position - mouseloc;
+            facing = (float)Math.Atan2(-direction.Y, -direction.X) + MathHelper.PiOver2;
 
         }
     }
