@@ -19,6 +19,7 @@ namespace _11100_Days_Later
                     left = Keys.Left,
                     right = Keys.Right,
                     shoot = Keys.Space,
+                    enter = Keys.Enter,
                     exit = Keys.Escape;
 
         public void UpdateInput()
@@ -28,6 +29,11 @@ namespace _11100_Days_Later
 
             previousMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
+        }
+
+        public bool IsEnterPressed()
+        {
+            return currentKBState.IsKeyDown(enter);
         }
 
         public bool IsEscPressed()

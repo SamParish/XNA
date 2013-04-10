@@ -11,6 +11,10 @@ using Microsoft.Xna.Framework.Media;
 
 namespace _11100_Days_Later
 {
+    public enum GameState
+    {
+        Start, Alive, Loose, Win, Paused
+    }
     /// <summary>
     /// This is the main type for your game
     /// </summary>
@@ -18,6 +22,12 @@ namespace _11100_Days_Later
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        InputHandler input = new InputHandler();
+
+        SpriteFont font;
+
+        GameState gameState;
 
         Environment world;
 
@@ -43,6 +53,8 @@ namespace _11100_Days_Later
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
 
+            gameState = GameState.Start;
+
             base.Initialize();
         }
 
@@ -56,6 +68,7 @@ namespace _11100_Days_Later
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            font = Content.Load<SpriteFont>("SpriteFont1");
             world.LoadContent(Content);
         }
 
@@ -75,15 +88,35 @@ namespace _11100_Days_Later
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            input.UpdateInput();
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            if (input.IsEscPressed())
+            {
+                this.Exit();
+            }
+
+            if (input.IsEnterPressed())
+            {
+                if (gameState == GameState.Start || gameState == GameState.Paused)
+                {
+                    gameState = GameState.Alive;
+                }
+            }
+
             // TODO: Add your update logic here
+            if (gameState == GameState.Alive)
+            {
+                world.Update();
 
-            world.Update();
-
-            base.Update(gameTime);
+                if (world.terminator.isDead)
+                {
+                    gameState = GameState.Loose;
+                }
+            }
+            base.Update(gameTime);            
         }
 
         /// <summary>
@@ -92,12 +125,26 @@ namespace _11100_Days_Later
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            world.Draw(spriteBatch, graphics);
+            if (gameState == GameState.Start)
+            {
+                GraphicsDevice.Clear(Color.White);
+                spriteBatch.DrawString(font, "Press Enter To Start ", new Vector2(50, 50), Color.Black);
+            }
+            if (gameState == GameState.Alive)
+            {
+                world.Draw(spriteBatch, graphics);
+            }
+            if (gameState == GameState.Loose)
+            {
+                GraphicsDevice.Clear(Color.Black);
+                spriteBatch.DrawString(font, "You Lose ", new Vector2(50, 50), Color.White);
+            }
             
             spriteBatch.End();
 

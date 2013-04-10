@@ -13,10 +13,11 @@ namespace _11100_Days_Later
     {
         public InputHandler input = new InputHandler();
 
-        PlayableChar terminator;
+        public PlayableChar terminator;
         EvilSpawns evil;
         Lazer lazer;
 
+        public SpriteFont font;
         public Texture2D levelOne, crossHair, spawnTexture, lazerTexture;
         public float lazerDelay;
         int killCount = 0;
@@ -36,11 +37,11 @@ namespace _11100_Days_Later
 
         public void LoadContent(ContentManager content)
         {
+            font = content.Load<SpriteFont>("SpriteFont1");
             levelOne = content.Load<Texture2D>("Background");
             crossHair = content.Load<Texture2D>("Crosshair");
             lazerTexture = content.Load<Texture2D>("360Lazer");
             spawnTexture = content.Load<Texture2D>("EvilSpawn");
-
             terminator.LoadContent(content);
         }
 
@@ -48,6 +49,8 @@ namespace _11100_Days_Later
         {
             spriteBatch.Draw(levelOne, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
             terminator.Draw(spriteBatch);
+
+            spriteBatch.DrawString(font,"Health: "+ terminator.health + " Kill Count: " + killCount.ToString(), new Vector2(50, 50), Color.White);
 
             //Crosshair.
             spriteBatch.Draw(
@@ -139,6 +142,7 @@ namespace _11100_Days_Later
             }
 
             //Intersects
+            //Does an evil intersect a lazer?
             foreach (EvilSpawns e in badSpawnList)
             {
                 for (int i = 0; i < lazerList.Count(); i++)
@@ -152,6 +156,16 @@ namespace _11100_Days_Later
                 }
             }
 
+            // check if an evil intersects player.
+            foreach (EvilSpawns e in badSpawnList)
+            {
+                if (e.boundingBox.Intersects(terminator.boundingBox))
+                {
+                    terminator.health--;
+                }
+            }
+
+            // remove dead things
             for (int i = 0; i < lazerList.Count(); i++)
             {
                 if (!lazerList[i].isVisible)

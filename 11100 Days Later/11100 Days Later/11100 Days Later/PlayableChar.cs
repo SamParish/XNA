@@ -20,6 +20,8 @@ namespace _11100_Days_Later
         public Vector2 crossHairPosition;
         public float speed = 5;
         public float facing;
+        public int health = 100;
+        public bool isDead = false;
 
         public PlayableChar(Vector2 spawnPosition)
         {
@@ -84,6 +86,12 @@ namespace _11100_Days_Later
             {
                 position.Y += speed;
             }
+
+            if (health < 0)
+            {
+                isDead = true;
+            }
+
 
             #endregion
         }
