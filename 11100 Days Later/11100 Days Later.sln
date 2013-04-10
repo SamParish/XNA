@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "11100 Days Later", "11100 Days Later\11100 Days Later\11100 Days Later.csproj", "{61A31B16-9F86-40A9-8639-0BFC45D89DBE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "11100 Days Later", "11100 Days Later\11100 Days Later\11100 Days Later.csproj", "{57ADD738-5A51-4DAC-BBD8-E13E3163BF9E}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "11100 Days LaterContent", "11100 Days Later\11100 Days LaterContent\11100 Days LaterContent.contentproj", "{1C3BEB87-423A-460F-89D6-05F07E039D17}"
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "11100 Days LaterContent", "11100 Days Later\11100 Days LaterContent\11100 Days LaterContent.contentproj", "{D6E908DF-B3E5-48DD-A3D4-5E1C6A8AAE42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,12 +11,12 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{61A31B16-9F86-40A9-8639-0BFC45D89DBE}.Debug|x86.ActiveCfg = Debug|x86
-		{61A31B16-9F86-40A9-8639-0BFC45D89DBE}.Debug|x86.Build.0 = Debug|x86
-		{61A31B16-9F86-40A9-8639-0BFC45D89DBE}.Release|x86.ActiveCfg = Release|x86
-		{61A31B16-9F86-40A9-8639-0BFC45D89DBE}.Release|x86.Build.0 = Release|x86
-		{1C3BEB87-423A-460F-89D6-05F07E039D17}.Debug|x86.ActiveCfg = Debug|x86
-		{1C3BEB87-423A-460F-89D6-05F07E039D17}.Release|x86.ActiveCfg = Release|x86
+		{57ADD738-5A51-4DAC-BBD8-E13E3163BF9E}.Debug|x86.ActiveCfg = Debug|x86
+		{57ADD738-5A51-4DAC-BBD8-E13E3163BF9E}.Debug|x86.Build.0 = Debug|x86
+		{57ADD738-5A51-4DAC-BBD8-E13E3163BF9E}.Release|x86.ActiveCfg = Release|x86
+		{57ADD738-5A51-4DAC-BBD8-E13E3163BF9E}.Release|x86.Build.0 = Release|x86
+		{D6E908DF-B3E5-48DD-A3D4-5E1C6A8AAE42}.Debug|x86.ActiveCfg = Debug|x86
+		{D6E908DF-B3E5-48DD-A3D4-5E1C6A8AAE42}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

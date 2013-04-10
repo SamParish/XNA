@@ -19,7 +19,7 @@ namespace _11100_Days_Later
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Level level1;
+        Environment world;
 
         public Game1()
         {
@@ -36,7 +36,7 @@ namespace _11100_Days_Later
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            level1 = new Level();
+            world = new Environment();
 
             graphics.PreferredBackBufferWidth = 1250;
             graphics.PreferredBackBufferHeight = 700;
@@ -54,9 +54,9 @@ namespace _11100_Days_Later
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            
+
             // TODO: use this.Content to load your game content here
-            level1.LoadContent(Content);
+            world.LoadContent(Content);
         }
 
         /// <summary>
@@ -80,7 +80,8 @@ namespace _11100_Days_Later
                 this.Exit();
 
             // TODO: Add your update logic here
-            level1.Update();
+
+            world.Update();
 
             base.Update(gameTime);
         }
@@ -94,11 +95,10 @@ namespace _11100_Days_Later
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            //spriteBatch = new SpriteBatch(GraphicsDevice);
-
             spriteBatch.Begin();
-            level1.Draw(spriteBatch, graphics);
 
+            world.Draw(spriteBatch, graphics);
+            
             spriteBatch.End();
 
             base.Draw(gameTime);
