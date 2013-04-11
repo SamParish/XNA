@@ -70,6 +70,24 @@ namespace _11100_Days_Later
 
             #region Keyboard Code
 
+            //if (position.X <= 0)
+            if (position.X <= 55)
+            {
+                position = new Vector2(55, position.Y);
+            }
+            if (position.X >= 1200)
+            {
+                position = new Vector2(1200, position.Y);
+            }
+            if (position.Y <= 55)
+            {
+                position = new Vector2(position.X, 55);
+            }
+            if (position.Y >= 650)
+            {
+                position = new Vector2(position.X, 650);
+            }
+
             if (input.IsLeftPressed())
             {
                 position.X -= speed;

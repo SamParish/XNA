@@ -32,6 +32,10 @@ namespace _11100_Days_Later
 
         Environment world;
 
+        float mAlphaValue = 1;
+        float mFadeIncrement = .01f;
+        double mFadeDelay = .035;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -123,6 +127,27 @@ namespace _11100_Days_Later
                     gameState = GameState.Win;
                 }
             }
+
+            //Decrement the delay by the number of seconds that have elapsed
+            //Since the last time that the Update() method was called.
+            mFadeDelay -= gameTime.ElapsedGameTime.TotalSeconds;
+
+            //If the fade delay is below zero then fade background in/out more.
+            if (mFadeDelay <= 0)
+            {
+                //Reset the fade delay.
+                mFadeDelay = .035;
+
+                //Increment/Decrement the fade value for the background.
+                mAlphaValue += mFadeIncrement;
+
+                if (mAlphaValue >= 1 || mAlphaValue <= 0)
+                {
+                    mFadeIncrement *= -1;
+                    mAlphaValue = MathHelper.Clamp(mAlphaValue, 0, 1);
+                }
+            }
+
             base.Update(gameTime);            
         }
 
@@ -137,8 +162,8 @@ namespace _11100_Days_Later
 
             if (gameState == GameState.Start)
             {
-                GraphicsDevice.Clear(Color.White);
-                spriteBatch.DrawString(menu, "Press Enter To Start ", new Vector2(50, 50), Color.Black);
+                GraphicsDevice.Clear(Color.Lerp(Color.White, Color.Transparent, mAlphaValue));
+                spriteBatch.DrawString(menu, "11100 Days Later\nPress Enter To Start ", new Vector2(50, 50), Color.Lerp(Color.Black, Color.White, mAlphaValue));
             }
             if (gameState == GameState.Alive)
             {
@@ -146,13 +171,13 @@ namespace _11100_Days_Later
             }
             if (gameState == GameState.Loose)
             {
-                GraphicsDevice.Clear(Color.Black);
-                spriteBatch.DrawString(menu, "You Lose \nPress Esc To Escape", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), Color.White);
+                GraphicsDevice.Clear(Color.Lerp(Color.Black, Color.Transparent, mAlphaValue));
+                spriteBatch.DrawString(menu, "You Lose \nPress Esc To Escape", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), Color.Lerp(Color.White, Color.Transparent, mAlphaValue));
             }
             if (gameState == GameState.Win)
             {
                 GraphicsDevice.Clear(Color.Black);
-                spriteBatch.DrawString(menu, "Congratulations\nYou Defeated The Evil Spawns", new Vector2(375, 450), Color.White);
+                spriteBatch.DrawString(menu, "Congratulations\nYou Defeated The Evil Spawns", new Vector2(375, 450), Color.Lerp(Color.Transparent, Color.White, mAlphaValue));
             }
             
             spriteBatch.End();
