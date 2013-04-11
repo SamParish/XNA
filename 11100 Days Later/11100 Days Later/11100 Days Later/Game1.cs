@@ -26,6 +26,7 @@ namespace _11100_Days_Later
         InputHandler input = new InputHandler();
 
         SpriteFont font;
+        SpriteFont menu;
 
         GameState gameState;
 
@@ -69,6 +70,7 @@ namespace _11100_Days_Later
 
             // TODO: use this.Content to load your game content here
             font = Content.Load<SpriteFont>("SpriteFont1");
+            menu = Content.Load<SpriteFont>("MenuFont");
             world.LoadContent(Content);
         }
 
@@ -93,6 +95,7 @@ namespace _11100_Days_Later
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            // TODO: Add your update logic here
             if (input.IsEscPressed())
             {
                 this.Exit();
@@ -106,7 +109,6 @@ namespace _11100_Days_Later
                 }
             }
 
-            // TODO: Add your update logic here
             if (gameState == GameState.Alive)
             {
                 world.Update();
@@ -114,6 +116,11 @@ namespace _11100_Days_Later
                 if (world.terminator.isDead)
                 {
                     gameState = GameState.Loose;
+                }
+
+                if (world.hasWon)
+                {
+                    gameState = GameState.Win;
                 }
             }
             base.Update(gameTime);            
@@ -125,16 +132,13 @@ namespace _11100_Days_Later
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
             if (gameState == GameState.Start)
             {
                 GraphicsDevice.Clear(Color.White);
-                spriteBatch.DrawString(font, "Press Enter To Start ", new Vector2(50, 50), Color.Black);
+                spriteBatch.DrawString(menu, "Press Enter To Start ", new Vector2(50, 50), Color.Black);
             }
             if (gameState == GameState.Alive)
             {
@@ -143,7 +147,12 @@ namespace _11100_Days_Later
             if (gameState == GameState.Loose)
             {
                 GraphicsDevice.Clear(Color.Black);
-                spriteBatch.DrawString(font, "You Lose ", new Vector2(50, 50), Color.White);
+                spriteBatch.DrawString(menu, "You Lose \nPress Esc To Escape", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), Color.White);
+            }
+            if (gameState == GameState.Win)
+            {
+                GraphicsDevice.Clear(Color.Black);
+                spriteBatch.DrawString(menu, "Congratulations\nYou Defeated The Evil Spawns", new Vector2(375, 450), Color.White);
             }
             
             spriteBatch.End();

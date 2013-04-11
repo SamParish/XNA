@@ -50,18 +50,22 @@ namespace _11100_Days_Later
         {
             return currentKBState.IsKeyDown(up);
         }
+
         public bool IsDownPressed()
         {
             return currentKBState.IsKeyDown(down);
         }
+
         public bool IsLeftPressed()
         {
             return currentKBState.IsKeyDown(left);
         }
+
         public bool IsRightPressed()
         {
             return currentKBState.IsKeyDown(right);
         }
+
         public bool IsSpacePressed()
         {
             return currentKBState.IsKeyDown(shoot);

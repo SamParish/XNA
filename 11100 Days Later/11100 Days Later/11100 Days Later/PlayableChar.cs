@@ -20,12 +20,13 @@ namespace _11100_Days_Later
         public Vector2 crossHairPosition;
         public float speed = 5;
         public float facing;
-        public int health = 100;
+        public int health;
         public bool isDead = false;
 
         public PlayableChar(Vector2 spawnPosition)
         {
             position = spawnPosition;
+            health = 200;
         }
 
         public void LoadContent(ContentManager content)

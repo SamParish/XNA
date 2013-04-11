@@ -18,9 +18,12 @@ namespace _11100_Days_Later
         Lazer lazer;
 
         public SpriteFont font;
-        public Texture2D levelOne, crossHair, spawnTexture, lazerTexture;
+        public Rectangle healthBarRectangle, medPackRectangle;
+        public Texture2D levelOne, crossHair, spawnTexture, lazerTexture, healthTexture, medPackTexture;
+        public Vector2 healthBarPos, medPackPos;
         public float lazerDelay;
         int killCount = 0;
+        public bool hasWon = false;
 
         public List<Lazer> lazerList;
         public List<EvilSpawns> badSpawnList;
@@ -29,15 +32,22 @@ namespace _11100_Days_Later
         {
             badSpawnList = new List<EvilSpawns>();
             lazerList = new List<Lazer>();
-
             lazerDelay = 10;
-
             terminator = new PlayableChar(new Vector2(200, 200));
+            healthBarPos = new Vector2(50, 50);
+
+            Random randomMed = new Random();
+            int spawnPointX = randomMed.Next(50, 1200);
+            int spawnPointY = randomMed.Next(50, 650);
+
+            medPackPos = new Vector2(spawnPointX, spawnPointY);
         }
 
         public void LoadContent(ContentManager content)
         {
             font = content.Load<SpriteFont>("SpriteFont1");
+            healthTexture = content.Load<Texture2D>("healthBar");
+            medPackTexture = content.Load<Texture2D>("MedPack");
             levelOne = content.Load<Texture2D>("Background");
             crossHair = content.Load<Texture2D>("Crosshair");
             lazerTexture = content.Load<Texture2D>("360Lazer");
@@ -50,7 +60,11 @@ namespace _11100_Days_Later
             spriteBatch.Draw(levelOne, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
             terminator.Draw(spriteBatch);
 
-            spriteBatch.DrawString(font,"Health: "+ terminator.health + " Kill Count: " + killCount.ToString(), new Vector2(50, 50), Color.White);
+            spriteBatch.Draw(healthTexture, healthBarRectangle, Color.White);
+
+            spriteBatch.Draw(medPackTexture, medPackRectangle, Color.White);
+
+            spriteBatch.DrawString(font, "Kill Count: " + killCount.ToString(), new Vector2(260, 52), Color.White);
 
             //Crosshair.
             spriteBatch.Draw(
@@ -68,7 +82,10 @@ namespace _11100_Days_Later
         public void Update()
         {
             input.UpdateInput();
-            terminator.Update();            
+            terminator.Update();
+
+            healthBarRectangle = new Rectangle((int)healthBarPos.X, (int)healthBarPos.Y, terminator.health, 25);
+            medPackRectangle = new Rectangle((int)medPackPos.X, (int)medPackPos.Y, medPackTexture.Width, medPackTexture.Height);
 
             if (input.IsSpacePressed() || input.IsLeftClick())
             {
@@ -78,6 +95,11 @@ namespace _11100_Days_Later
 
             UpdateSpawn();
             UpdateSpawnInfo();
+
+            if (killCount == 50)
+            {
+                hasWon = true;
+            }
         }
 
         public void UpdateSpawn()
@@ -91,7 +113,7 @@ namespace _11100_Days_Later
              evil = new EvilSpawns(spawnPoint, spawnTexture);
                 evil.spawnMovement = new Vector2(evil.spawnMovement.X - evil.spawnTexture.Width / 2, evil.spawnMovement.Y);
                 
-                if (badSpawnList.Count() < 10)
+                if (badSpawnList.Count() < 25)
                     badSpawnList.Add(evil);
         }
 
@@ -161,7 +183,23 @@ namespace _11100_Days_Later
             {
                 if (e.boundingBox.Intersects(terminator.boundingBox))
                 {
-                    terminator.health--;
+                    terminator.health -= 1;
+                }
+            }
+
+            //If user picks up med pack, add health.
+            if (medPackRectangle.Intersects(terminator.boundingBox))
+            {
+                if (terminator.health < 170)
+                {
+                    terminator.health += 30;
+
+                    //Generate a new location once picked up.
+                    Random randomMed = new Random();
+                    int spawnPointX = randomMed.Next(50, 1200);
+                    int spawnPointY = randomMed.Next(50, 650);
+
+                    medPackPos = new Vector2(spawnPointX, spawnPointY);
                 }
             }
 
