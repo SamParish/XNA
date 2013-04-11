@@ -96,7 +96,7 @@ namespace _11100_Days_Later
             UpdateSpawn();
             UpdateSpawnInfo();
 
-            if (killCount == 50)
+            if (killCount >= 50)
             {
                 hasWon = true;
             }
