@@ -70,7 +70,7 @@ namespace _11100_Days_Later
 
             #region Keyboard Code
 
-            //if (position.X <= 0)
+            //No leaving the screen fucker!!
             if (position.X <= 55)
             {
                 position = new Vector2(55, position.Y);
@@ -83,9 +83,9 @@ namespace _11100_Days_Later
             {
                 position = new Vector2(position.X, 55);
             }
-            if (position.Y >= 650)
+            if (position.Y >= 645)
             {
-                position = new Vector2(position.X, 650);
+                position = new Vector2(position.X, 645);
             }
 
             if (input.IsLeftPressed())

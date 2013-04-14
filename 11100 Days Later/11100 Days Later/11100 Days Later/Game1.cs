@@ -26,7 +26,7 @@ namespace _11100_Days_Later
         InputHandler input = new InputHandler();
 
         SpriteFont font;
-        SpriteFont menu;
+        SpriteFont menufont;
 
         GameState gameState;
 
@@ -74,7 +74,7 @@ namespace _11100_Days_Later
 
             // TODO: use this.Content to load your game content here
             font = Content.Load<SpriteFont>("SpriteFont1");
-            menu = Content.Load<SpriteFont>("MenuFont");
+            menufont = Content.Load<SpriteFont>("MenuFont");
             world.LoadContent(Content);
         }
 
@@ -163,7 +163,7 @@ namespace _11100_Days_Later
             if (gameState == GameState.Start)
             {
                 GraphicsDevice.Clear(Color.Lerp(Color.White, Color.Transparent, mAlphaValue));
-                spriteBatch.DrawString(menu, "11100 Days Later\nPress Enter To Start ", new Vector2(50, 50), Color.Lerp(Color.Black, Color.White, mAlphaValue));
+                spriteBatch.DrawString(menufont, "11100 Days Later\nPress Enter To Start ", new Vector2(50, 50), Color.Lerp(Color.Black, Color.White, mAlphaValue));
             }
             if (gameState == GameState.Alive)
             {
@@ -172,12 +172,12 @@ namespace _11100_Days_Later
             if (gameState == GameState.Loose)
             {
                 GraphicsDevice.Clear(Color.Lerp(Color.Black, Color.Transparent, mAlphaValue));
-                spriteBatch.DrawString(menu, "You Lose \nPress Esc To Escape", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), Color.Lerp(Color.White, Color.Transparent, mAlphaValue));
+                spriteBatch.DrawString(menufont, "You Lose \nPress Esc To Escape", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), Color.Lerp(Color.White, Color.Transparent, mAlphaValue));
             }
             if (gameState == GameState.Win)
             {
                 GraphicsDevice.Clear(Color.Black);
-                spriteBatch.DrawString(menu, "Congratulations\nYou Defeated The Evil Spawns", new Vector2(375, 450), Color.Lerp(Color.Transparent, Color.White, mAlphaValue));
+                spriteBatch.DrawString(menufont, "Congratulations\nYou Defeated The Evil Spawns", new Vector2(375, 450), Color.Lerp(Color.Transparent, Color.White, mAlphaValue));
             }
             
             spriteBatch.End();

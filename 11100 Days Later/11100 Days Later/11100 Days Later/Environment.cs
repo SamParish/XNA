@@ -96,7 +96,7 @@ namespace _11100_Days_Later
             UpdateSpawn();
             UpdateSpawnInfo();
 
-            if (killCount >= 2)
+            if (killCount >= 200)
             {
                 hasWon = true;
             }
@@ -113,7 +113,7 @@ namespace _11100_Days_Later
              evil = new EvilSpawns(spawnPoint, spawnTexture);
                 evil.spawnMovement = new Vector2(evil.spawnMovement.X - evil.spawnTexture.Width / 2, evil.spawnMovement.Y);
                 
-                if (badSpawnList.Count() < 100)
+                if (badSpawnList.Count() < 200)
                     badSpawnList.Add(evil);
         }
 
