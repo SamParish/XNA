@@ -101,6 +101,7 @@ namespace _11100_Days_Later
                 this.Exit();
             }
 
+            // Gamestate management.
             if (input.IsEnterPressed())
             {
                 if (gameState == GameState.Start || gameState == GameState.Paused)
@@ -111,6 +112,7 @@ namespace _11100_Days_Later
 
             if (gameState == GameState.Alive)
             {
+                // Run the main game..
                 world.Update();
 
                 if (world.terminator.isDead)

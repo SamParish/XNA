@@ -14,28 +14,26 @@ namespace _11100_Days_Later
         public InputHandler input = new InputHandler();
 
         public PlayableChar terminator;
-        EvilSpawns evil;
-        Lazer lazer;
+        EvilSpawns evil;        
 
         public SpriteFont font;
         public Rectangle healthBarRectangle, medPackRectangle;
-        public Texture2D levelOne, crossHair, spawnTexture, lazerTexture, healthTexture, medPackTexture;
+        public Texture2D levelOne, crossHair, spawnTexture, healthTexture, medPackTexture;
         public Vector2 healthBarPos, medPackPos;
-        public float lazerDelay;
         int killCount = 0;
         public bool hasWon = false;
 
-        public List<Lazer> lazerList;
         public List<EvilSpawns> badSpawnList;
 
         public Environment()
         {
             badSpawnList = new List<EvilSpawns>();
-            lazerList = new List<Lazer>();
-            lazerDelay = 10;
+            
             terminator = new PlayableChar(new Vector2(200, 200));
             healthBarPos = new Vector2(50, 50);
 
+            // Spawns Health kit.
+            // This needs to be a seperate Method that is called here.
             Random randomMed = new Random();
             int spawnPointX = randomMed.Next(50, 1200);
             int spawnPointY = randomMed.Next(50, 650);
@@ -49,8 +47,7 @@ namespace _11100_Days_Later
             healthTexture = content.Load<Texture2D>("healthBar");
             medPackTexture = content.Load<Texture2D>("MedPack");
             levelOne = content.Load<Texture2D>("Background");
-            crossHair = content.Load<Texture2D>("Crosshair");
-            lazerTexture = content.Load<Texture2D>("360Lazer");
+            crossHair = content.Load<Texture2D>("Crosshair");            
             spawnTexture = content.Load<Texture2D>("EvilSpawn");
             terminator.LoadContent(content);
         }
@@ -75,7 +72,7 @@ namespace _11100_Days_Later
             foreach (EvilSpawns e in badSpawnList)
                 e.Draw(spriteBatch);
 
-            foreach (Lazer l in lazerList)
+            foreach (Lazer l in terminator.lazerList)
                 l.Draw(spriteBatch);
         }
 
@@ -84,14 +81,12 @@ namespace _11100_Days_Later
             input.UpdateInput();
             terminator.Update();
 
+            // I think Health should be part of the character..
             healthBarRectangle = new Rectangle((int)healthBarPos.X, (int)healthBarPos.Y, terminator.health, 25);
             medPackRectangle = new Rectangle((int)medPackPos.X, (int)medPackPos.Y, medPackTexture.Width, medPackTexture.Height);
 
-            if (input.IsSpacePressed() || input.IsLeftClick())
-            {
-                Shoot();
-            }
-            UpdateShoot();
+            
+            CheckCollisions();
 
             UpdateSpawn();
             UpdateSpawnInfo();
@@ -102,6 +97,7 @@ namespace _11100_Days_Later
             }
         }
 
+        // So this spawns new badguys if needed.
         public void UpdateSpawn()
         {
             Random randomSpawn = new Random();
@@ -117,6 +113,7 @@ namespace _11100_Days_Later
                     badSpawnList.Add(evil);
         }
 
+        // And this updates the positions of current bad guys. Should be withing the bad guys.cs
         public void UpdateSpawnInfo()
         {
             foreach (EvilSpawns e in badSpawnList)
@@ -129,49 +126,18 @@ namespace _11100_Days_Later
             }
         }
 
-        public void Shoot()
+        // Checks for collisions.
+        public void CheckCollisions()
         {
-            if (lazerDelay >= 0)
-                lazerDelay--;
-
-            if (lazerDelay <= 0)
-            {
-                lazer = new Lazer(lazerTexture, terminator.position);
-                lazer.lazerPosition = new Vector2(terminator.position.X - lazer.lazerTexture.Width / 2, terminator.position.Y);
-                lazer.isVisible = true;
-
-                if (lazerList.Count() < 20)
-                    lazerList.Add(lazer);
-            }
-
-            if (lazerDelay == 0)
-                lazerDelay = 10;
-        }
-
-        public void UpdateShoot()
-        {
-            foreach (Lazer l in lazerList)
-            {
-                //Sets movement.
-                l.lazerPosition += l.lazerDirection * terminator.speed;
-
-                l.boundingbox = new Rectangle((int)l.lazerPosition.X, (int)l.lazerPosition.Y, l.lazerTexture.Width, l.lazerTexture.Height);
-
-                if (l.lazerPosition.Y <= 0 || l.lazerPosition.Y >= 700 || l.lazerPosition.X <= 0 || l.lazerPosition.X >= 1250)
-                {
-                    l.isVisible = false;
-                }
-            }
-
             //Intersects
             //Does an evil intersect a lazer?
             foreach (EvilSpawns e in badSpawnList)
             {
-                for (int i = 0; i < lazerList.Count(); i++)
+                for (int i = 0; i < terminator.lazerList.Count(); i++)
                 {
-                    if (e.boundingBox.Intersects(lazerList[i].boundingbox))
+                    if (e.boundingBox.Intersects(terminator.lazerList[i].boundingbox))
                     {
-                        lazerList[i].isVisible = false;
+                        terminator.lazerList[i].isVisible = false;
                         e.isVisible = false;
                         killCount++;
                     }
@@ -204,11 +170,11 @@ namespace _11100_Days_Later
             }
 
             // remove dead things
-            for (int i = 0; i < lazerList.Count(); i++)
+            for (int i = 0; i < terminator.lazerList.Count(); i++)
             {
-                if (!lazerList[i].isVisible)
+                if (!terminator.lazerList[i].isVisible)
                 {
-                    lazerList.RemoveAt(i);
+                    terminator.lazerList.RemoveAt(i);
                     i--;
                 }
             }

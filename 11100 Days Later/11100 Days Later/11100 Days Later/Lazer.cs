@@ -17,9 +17,11 @@ namespace _11100_Days_Later
         public Texture2D lazerTexture;
         public Vector2 lazerPosition, lazerDirection, mousePos;
         public bool isVisible;
+        float speed;
 
         public Lazer(Texture2D pNewTexture, Vector2 pPosition)
         {
+            speed = 10;
             mousePos = new Vector2(mouseState.X, mouseState.Y);
 
             lazerPosition = pPosition;
@@ -28,6 +30,7 @@ namespace _11100_Days_Later
 
             lazerTexture = pNewTexture;
             isVisible = false;
+
         }
 
         public Lazer()
@@ -45,6 +48,19 @@ namespace _11100_Days_Later
                 1,
                 SpriteEffects.None,
                 0);
+        }
+
+        public void update()
+        {
+            //Sets movement.
+            lazerPosition += lazerDirection * speed;
+
+            boundingbox = new Rectangle((int)lazerPosition.X, (int)lazerPosition.Y, lazerTexture.Width, lazerTexture.Height);
+
+            if (lazerPosition.Y <= 0 || lazerPosition.Y >= 700 || lazerPosition.X <= 0 || lazerPosition.X >= 1250)
+            {
+                isVisible = false;
+            }
         }
     }
 }
