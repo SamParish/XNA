@@ -84,7 +84,7 @@ namespace _11100_Days_Later
             input.UpdateInput();
             terminator.Update();
 
-            healthBarRectangle = new Rectangle((int)healthBarPos.X, (int)healthBarPos.Y, terminator.health, 25);
+            healthBarRectangle = new Rectangle((int)healthBarPos.X, (int)healthBarPos.Y, (int)terminator.health, 25);
             medPackRectangle = new Rectangle((int)medPackPos.X, (int)medPackPos.Y, medPackTexture.Width, medPackTexture.Height);
 
             if (input.IsSpacePressed() || input.IsLeftClick())
@@ -183,7 +183,7 @@ namespace _11100_Days_Later
             {
                 if (e.boundingBox.Intersects(terminator.boundingBox))
                 {
-                    terminator.health -= 1;
+                    terminator.health -= 0.1f;
                 }
             }
 
