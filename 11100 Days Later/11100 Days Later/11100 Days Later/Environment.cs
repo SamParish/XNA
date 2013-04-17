@@ -113,7 +113,7 @@ namespace _11100_Days_Later
                     badSpawnList.Add(evil);
         }
 
-        // And this updates the positions of current bad guys. Should be withing the bad guys.cs
+        // And this updates the positions of current bad guys. Should be within the bad guys.cs
         public void UpdateSpawnInfo()
         {
             foreach (EvilSpawns e in badSpawnList)
@@ -153,6 +153,7 @@ namespace _11100_Days_Later
                 }
             }
 
+            // Move to pickups eventually.
             //If user picks up med pack, add health.
             if (medPackRectangle.Intersects(terminator.boundingBox))
             {

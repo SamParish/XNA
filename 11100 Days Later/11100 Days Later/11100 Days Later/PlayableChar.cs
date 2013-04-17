@@ -61,6 +61,11 @@ namespace _11100_Days_Later
 
             boundingBox = new Rectangle((int)position.X, (int)position.Y, characterTexture.Width, characterTexture.Height);
 
+            foreach (Lazer lazer in lazerList)
+            {
+                lazer.update();
+            }
+
             #region Mouse Code
 
             //Mouse operations: Gets the current value of the mouse position and sets the crosshair.
